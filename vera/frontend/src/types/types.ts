@@ -64,4 +64,5 @@ export interface AdminDoc {
   vectors: number;
   collection: string;
   filename?: string;
+  indexed_at?: string;
 }

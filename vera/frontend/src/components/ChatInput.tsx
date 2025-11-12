@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import DomainSelector from './DomainSelector';
-import { LegalDomain } from '@/types/api';
+import { LegalDomain } from '@/types/types';
 
 interface ChatInputProps {
   onSendMessage: (message: string, domain: LegalDomain) => void;
@@ -48,17 +48,17 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="bg-white border-t border-gray-200 p-4">
-      <form onSubmit={handleSubmit} className="flex gap-3 items-end">
+    <div className="border-t border-neutral-800 px-6 py-4 shrink-0">
+      <form onSubmit={handleSubmit} className="flex gap-2 items-end max-w-3xl mx-auto">
         <div className="flex-1">
           <textarea
             ref={textareaRef}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask a legal question..."
+            placeholder="Ask me anything..."
             disabled={disabled}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-neutral-50 placeholder:text-neutral-500 resize-none focus:outline-none focus:ring-1 focus:ring-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed"
             rows={1}
             style={{ maxHeight: '120px' }}
           />
@@ -74,10 +74,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
           <button
             type="submit"
             disabled={disabled || !message.trim()}
-            className="bg-primary-700 text-white px-4 py-3 rounded-lg hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center gap-2"
+            className="bg-gradient-to-r from-[#ad46ff] to-[#f6339a] text-white w-10 h-[52px] rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-200 flex items-center justify-center hover:opacity-90"
           >
             <FaPaperPlane size={16} />
-            Send
           </button>
         </div>
       </form>

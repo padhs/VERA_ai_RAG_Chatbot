@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FaFile, FaRedo, FaClock } from 'react-icons/fa';
-import type { AdminDoc } from '@/types/api';
+import type { AdminDoc } from '@/types/types';
 
 interface DocTableProps {
   documents: AdminDoc[];
@@ -113,7 +113,7 @@ const DocTable: React.FC<DocTableProps> = ({ documents, loading = false, onRefre
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-2 text-sm text-neutral-600">
                       <FaClock size={12} />
-                      {formatDate(doc.last_indexed)}
+                      {formatDate(doc.indexed_at)}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { FaUpload, FaFile, FaTimes } from 'react-icons/fa';
 import DomainSelector from './DomainSelector';
+import type { LegalDomain } from '@/types/types';
 
 interface FileUploaderProps {
   onUpload: (file: File, domain: string) => void;
@@ -18,7 +19,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   maxSize = 10,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedDomain, setSelectedDomain] = useState('general');
+  const [selectedDomain, setSelectedDomain] = useState<LegalDomain>('it_act');
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 

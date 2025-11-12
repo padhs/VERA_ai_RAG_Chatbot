@@ -1,0 +1,7 @@
+{
+    "workbench.sideBar.location": "left",
+    "python.defaultInterpreterPath": "${workspaceFolder}/vera/.venv/bin/python",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/vera/.venv/lib/python3.12/site-packages"
+    ]
+}

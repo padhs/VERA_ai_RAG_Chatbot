@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { QueryRequest, QueryResponse } from '@/types/api';
+import { QueryRequest, QueryResponse } from '@/types/types';
 
 // ============================================================================
 // API Client Configuration

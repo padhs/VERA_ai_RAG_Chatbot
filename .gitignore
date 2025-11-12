@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules/
+vera/frontend/node_modules
+vera/frontend/package-lock.json
 .pnp
 .pnp.js
 
@@ -9,7 +10,7 @@ node_modules/
 coverage/
 
 # next.js
-.next/
+vera/frontend/.next
 out/
 
 # production
@@ -38,3 +39,14 @@ next-env.d.ts
 # python env
 backend/.venv/
 backend/venv/
+vera/.venv
+vera/.venv/*
+
+# backend temp_files
+vera/backend/data/*
+
+# __pychache__
+__pycache__/
+*.pyc
+vera/backend/core/__pycache__
+

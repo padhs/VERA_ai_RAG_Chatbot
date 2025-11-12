@@ -8,7 +8,7 @@ import FileUploader from '@/components/FileUploader';
 import DocTable from '@/components/DocTable';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { apiEndpoints } from '@/lib/axios';
-import type { AdminDoc } from '@/types/api';
+import type { AdminDoc } from '@/types/types';
 import PageContainer from '@/components/layout/PageContainer';
 
 interface HealthStatus {

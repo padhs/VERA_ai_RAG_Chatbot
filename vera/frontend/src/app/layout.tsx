@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import Header from "@/components/layout/Header";
+import ConditionalLayout from "@/components/ConditionalLayout";
 import "./globals.css";
 
 const inter = Inter({
@@ -94,14 +94,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen flex flex-col bg-neutral-50 text-neutral-800 font-sans antialiased">
-        <div className="w-full flex flex-col items-center">
-          <Header />
-          <main className="flex-grow flex flex-col items-center w-full">
-            <div className="w-full max-w-7xl mx-auto">
-              {children}
-            </div>
-          </main>
-        </div>
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
         {/* <Footer /> */}
         <Toaster
           position="top-right"
