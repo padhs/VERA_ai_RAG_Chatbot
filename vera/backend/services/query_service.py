@@ -1,48 +1,76 @@
 # query handler service
 
-from core.logger import get_logger
-from core.qdrant_client import client
-from core.config import qdrant_collection
-from core.gemini_client import generate_response, embed_chunks_batched
+from __future__ import annotations
 
+from typing import List
+
+from core.config import QDRANT_VECTOR_SIZE, qdrant_collection
+from core.gemini_client import embed_chunks_batched, generate_response
+from core.logger import get_logger
+from core.qdrant_client import client, ensure_collection
 
 logger = get_logger("vera.query_service")
 
-async def handle_query(question: str):
-    """Handle a user query and return a response from LLM call"""
+TOP_K = 3
+
+
+async def handle_query(question: str) -> dict:
+    """Handle a user query and return a response from LLM call."""
     try:
-        vectors = embed_chunks_batched([question], batch_size=1)
-        query_vector = vectors[0]
+        ensure_collection()
+
+        embeddings = embed_chunks_batched([question], batch_size=1)
+        if not embeddings or len(embeddings[0]) != QDRANT_VECTOR_SIZE:
+            logger.error("Embedding vector dimension mismatch for question.")
+            return _fallback_response(question, reason="embedding_mismatch")
+
+        query_vector = embeddings[0]
 
         results = client.search(
             collection_name=qdrant_collection,
             query_vector=query_vector,
-            limit=3
+            limit=TOP_K,
         )
 
-        if not results:
-            # TODO: Make a normal LLM call to Gemini for fallback response. 
-            """Show whatever contextual response we can provide for that.
-                Pass on that context in the next LLM call. Maintain context consistency and continuity.
-            """
-            return {"answer": "I'm sorry, I don't have any information on that topic", 
-            "sources": []}
-        
-        retrieved_chunks = [hit.payload.get("text", "") for hit in results if hit.payload]
-        context = "\n\n".join(retrieved_chunks).strip()
+        retrieved_chunks: List[str] = [
+            hit.payload.get("text", "")
+            for hit in results
+            if hit.payload and hit.payload.get("text")
+        ]
 
-        prompt = f"""
-        You are VERA AI, a legal research assistant. You are given a question and a context. Answer strictly based on the 
-        context provided. If the context is not relevant to the question, answer with "I'm sorry, I don't have any information on that topic".
-        Question: {question}
-        Context: {context or "[no context]"}
-        """
+        if not retrieved_chunks:
+            return _fallback_response(question, reason="no_context")
+
+        context = "\n\n".join(retrieved_chunks).strip()
+        prompt = (
+            "You are VERA AI, a legal research assistant. You are given a question and a "
+            "context. Answer strictly based on the context provided. If the context is not "
+            'relevant to the question, answer with "I\'m sorry, I don\'t have any information on that topic".\n'
+            f"Question: {question}\n"
+            f"Context: {context or '[no context]'}"
+        )
 
         answer = generate_response(prompt)
         return {"answer": answer, "sources": retrieved_chunks}
 
-    except Exception as e:
-        logger.exception(f"Query service failed: {str(e)}")
-        return {"status": "error", "message": str(e)}
+    except Exception as exc:
+        logger.exception("Query service failed: %s", exc)
+        return _fallback_response(question, reason="exception", error=str(exc))
 
 
+def _fallback_response(question: str, *, reason: str, error: str | None = None) -> dict:
+    """
+    Provide a graceful fallback by making a plain LLM call without context.
+    """
+    try:
+        answer = generate_response(
+            f"You are VERA AI, a legal assistant. Provide the best possible answer to:\n{question}"
+        )
+        response = {"answer": answer, "sources": [], "fallback": True, "reason": reason}
+        if error:
+            response["error"] = error
+        return response
+    except Exception as fallback_exc:
+        logger.exception("Fallback LLM call failed: %s", fallback_exc)
+        message = error or str(fallback_exc)
+        return {"status": "error", "message": message}
