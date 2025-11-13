@@ -49,17 +49,6 @@ export const apiEndpoints = {
   // Query endpoint
   query: (data: { query: string; domain?: string }) => 
     api.post('/api/v1/query', data),
-  
-  // Upload endpoint
-  upload: (formData: FormData) => 
-    api.post('/api/v1/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }),
-  
-  // Admin docs endpoint
-  getDocs: () => api.get('/api/v1/admin/docs'),
 };
 
 export default api;

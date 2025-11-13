@@ -2,25 +2,18 @@
 // API Request & Response Interfaces
 // ============================================================================
 
-export interface QueryRequest {
-  query: string;
-  domain: string;
+export interface ChatRequest {
+  question: string;
 }
 
-export interface Citation {
-  act: string;
-  section?: string;
-  source_file?: string;
-  page?: number;
-}
-
-export interface QueryResponse {
+export interface ChatResponse {
   answer: string;
-  citations: Citation[];
-  retrieved_chunks: number;
-  generation_model: string;
-  embedding_model: string;
-  vector_db: string;
+  sources: string[];
+  fallback?: boolean;
+  reason?: string;
+  error?: string;
+  status?: string;
+  message?: string;
 }
 
 // ============================================================================
@@ -56,13 +49,3 @@ export const LEGAL_DOMAINS = [
 ] as const;
 
 export type LegalDomain = typeof LEGAL_DOMAINS[number];
-
-export interface AdminDoc {
-  id: string;
-  name: string;
-  domain: LegalDomain;
-  vectors: number;
-  collection: string;
-  filename?: string;
-  indexed_at?: string;
-}

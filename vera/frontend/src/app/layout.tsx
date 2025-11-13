@@ -1,14 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import ConditionalLayout from "@/components/ConditionalLayout";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -92,41 +84,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen flex flex-col bg-neutral-50 text-neutral-800 font-sans antialiased">
-        <ConditionalLayout>
-          {children}
-        </ConditionalLayout>
+    <html lang="en">
+      <body className="min-h-screen flex flex-col bg-neutral-950 text-neutral-50 font-sans antialiased">
+        {children}
         {/* <Footer /> */}
         <Toaster
           position="top-right"
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#fff',
-              color: '#171717',
-              border: '1px solid #e5e5e5',
+              background: '#171717',
+              color: '#fafafa',
+              border: '1px solid #404040',
               borderRadius: '12px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
               fontSize: '14px',
               fontWeight: '500',
             },
             success: {
               iconTheme: {
-                primary: '#6B8E23',
-                secondary: '#fff',
+                primary: '#ad46ff',
+                secondary: '#171717',
               },
             },
             error: {
               iconTheme: {
                 primary: '#ef4444',
-                secondary: '#fff',
+                secondary: '#171717',
               },
             },
             loading: {
               iconTheme: {
-                primary: '#6B8E23',
-                secondary: '#fff',
+                primary: '#ad46ff',
+                secondary: '#171717',
               },
             },
           }}

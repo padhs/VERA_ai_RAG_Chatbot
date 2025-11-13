@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { QueryRequest, QueryResponse } from '@/types/types';
+import { ChatRequest, ChatResponse } from '@/types/types';
 
 // ============================================================================
 // API Client Configuration
@@ -51,10 +51,10 @@ apiClient.interceptors.response.use(
 
 export const api = {
   /**
-   * Send a query to the legal AI assistant
+   * Send a chat message to the legal AI assistant
    */
-  query: async (data: QueryRequest): Promise<QueryResponse> => {
-    const response = await apiClient.post<QueryResponse>('/api/v1/query', data);
+  chat: async (data: ChatRequest): Promise<ChatResponse> => {
+    const response = await apiClient.post<ChatResponse>('/api/v1/chat', data);
     return response.data;
   },
 
