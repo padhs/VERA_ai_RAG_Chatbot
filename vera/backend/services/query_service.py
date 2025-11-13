@@ -19,7 +19,13 @@ async def handle_query(question: str) -> dict:
     try:
         ensure_collection()
 
-        embeddings = embed_chunks_batched([question], batch_size=1)
+        # Use QUESTION_ANSWERING task type for queries (optimized for Q&A)
+        embeddings = embed_chunks_batched(
+            [question], 
+            batch_size=1, 
+            task_type="QUESTION_ANSWERING",
+            output_dimensionality=QDRANT_VECTOR_SIZE
+        )
         if not embeddings or len(embeddings[0]) != QDRANT_VECTOR_SIZE:
             logger.error("Embedding vector dimension mismatch for question.")
             return _fallback_response(question, reason="embedding_mismatch")

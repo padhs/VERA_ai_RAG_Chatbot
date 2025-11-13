@@ -59,12 +59,16 @@ async def ingest_document(
         total_points = 0
         for start in range(0, len(chunks), BATCH_SIZE):
             batch = chunks[start : start + BATCH_SIZE]
-            vectors = embed_chunks_batched(batch)
+            vectors = embed_chunks_batched(
+                batch,
+                output_dimensionality=QDRANT_VECTOR_SIZE,
+                task_type="SEMANTIC_SIMILARITY"
+            )
 
             if not vectors or len(vectors[0]) != QDRANT_VECTOR_SIZE:
                 raise HTTPException(
                     status_code=500,
-                    detail="Embedding dimension mismatch. Expected 768-d vectors from Gemini.",
+                    detail=f"Embedding dimension mismatch. Expected {QDRANT_VECTOR_SIZE}-d vectors from Gemini, got {len(vectors[0]) if vectors else 0}.",
                 )
 
             points = [

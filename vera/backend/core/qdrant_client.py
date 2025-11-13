@@ -24,8 +24,8 @@ else:
 
 def ensure_collection() -> None:
     """
-    Ensure the configured collection exists and respects the expected 768-d
-    vector size used by Gemini embeddings.
+    Ensure the configured collection exists and respects the expected vector size
+    used by Gemini embeddings (3072 dimensions by default).
     """
 
     exists = client.collection_exists(qdrant_collection)
