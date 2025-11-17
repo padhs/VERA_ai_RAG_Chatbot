@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Sparkles, User } from 'lucide-react';
 import { ChatMessage as ChatMessageType } from '@/types/types';
 
 interface ChatMessageProps {
@@ -9,28 +10,34 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === 'user';
-  
+
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} gap-3 items-start mb-3`}>
-      {!isUser && (
-        <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center">
-          <div className="w-4 h-4 bg-gradient-to-r from-[#ad46ff] to-[#f6339a] rounded-full"></div>
-        </div>
-      )}
+    <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
       <div
-        className={`px-4 py-3 ${
+        className={`flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0 ${
           isUser
-            ? 'bg-neutral-800 text-neutral-50 rounded-bl-2xl rounded-br-[6px] rounded-tl-2xl rounded-tr-2xl'
-            : 'bg-neutral-900 text-neutral-50 rounded-bl-[6px] rounded-br-2xl rounded-tl-[6px] rounded-tr-2xl'
+            ? 'bg-neutral-200'
+            : 'bg-gradient-to-br from-purple-500 to-pink-500'
         }`}
       >
-        <p className="text-base leading-6 whitespace-pre-wrap font-normal">{message.text}</p>
+        {isUser ? (
+          <User className="w-4 h-4 text-neutral-700" />
+        ) : (
+          <Sparkles className="w-4 h-4 text-white" />
+        )}
       </div>
-      {isUser && (
-        <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center">
-          <div className="w-4 h-4 bg-neutral-700 rounded-full"></div>
-        </div>
-      )}
+
+      <div
+        className={`px-4 py-3 rounded-2xl max-w-[80%] ${
+          isUser
+            ? 'bg-neutral-200 rounded-tr-sm'
+            : 'bg-neutral-100 rounded-tl-sm'
+        }`}
+      >
+        <p className="text-neutral-900 whitespace-pre-wrap break-words text-lg">
+          {message.content}
+        </p>
+      </div>
     </div>
   );
 };

@@ -87,7 +87,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-neutral-950 text-neutral-50 font-sans antialiased">
         {children}
-        {/* <Footer /> */}
         <Toaster
           position="top-right"
           toastOptions={{

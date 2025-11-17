@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { FaPaperPlane } from 'react-icons/fa';
+import { Send } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -45,39 +45,34 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 border-t border-neutral-800 pt-4 pb-0 shrink-0 bg-neutral-950">
-      <div className="max-w-4xl mx-auto px-4">
-        <form onSubmit={handleSubmit} className="flex gap-2 items-end h-[85px]">
-        <div className="flex-1 min-w-0">
-          <div className="bg-neutral-900 border border-neutral-800 rounded-lg h-[52px] flex items-start overflow-hidden">
-            <textarea
-              ref={textareaRef}
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-                adjustTextareaHeight();
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder="Ask me anything..."
-              disabled={disabled}
-              className="w-full px-3 py-2 bg-transparent text-neutral-50 placeholder:text-neutral-500 resize-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-sm leading-5 h-[52px]"
-              rows={1}
-              style={{ maxHeight: '120px', minHeight: '52px' }}
-            />
-          </div>
+    <form onSubmit={handleSubmit} className="flex items-center gap-3">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center rounded-2xl border border-neutral-300 bg-white px-4">
+          <textarea
+            ref={textareaRef}
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+              adjustTextareaHeight();
+            }}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask me anything..."
+            disabled={disabled}
+            className="w-full bg-transparent py-3 text-lg leading-6 text-neutral-900 placeholder:text-neutral-400 focus:outline-none min-h-[52px] max-h-[200px] resize-none"
+            rows={1}
+            style={{ maxHeight: '200px', minHeight: '52px' }}
+          />
         </div>
-        
-        <button
-          type="submit"
-          disabled={disabled || !message.trim()}
-          className="bg-gradient-to-r from-[#ad46ff] to-[#f6339a] text-white w-10 h-[52px] rounded-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-200 flex items-center justify-center hover:opacity-90 shrink-0"
-          style={{ opacity: disabled || !message.trim() ? 0.5 : 1 }}
-        >
-          <FaPaperPlane size={16} />
-        </button>
-      </form>
       </div>
-    </div>
+      <button
+        type="submit"
+        disabled={disabled || !message.trim()}
+        className="h-[52px] w-[120px] rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-colors hover:from-purple-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2 text-lg font-medium"
+      >
+        <Send className="w-5 h-5" />
+        Send
+      </button>
+    </form>
   );
 };
 
