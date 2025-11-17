@@ -67,10 +67,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
       <button
         type="submit"
         disabled={disabled || !message.trim()}
-        className="h-[52px] w-[120px] rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-colors hover:from-purple-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2 text-lg font-medium"
+        className="h-[52px] w-12 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-colors hover:from-purple-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2 text-lg font-medium"
       >
-        <Send className="w-5 h-5" />
-        Send
+        <Send className="h-5"/>
       </button>
     </form>
   );
